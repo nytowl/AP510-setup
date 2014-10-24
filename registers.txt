@@ -1,0 +1,69 @@
+# Registers - first couple are care of Phil
+# https://groups.yahoo.com/neo/groups/AP510/conversations/messages/206
+
+00: Model @ Firmware version report (read only)
+
+01: Callsign.  Must be total of 7 characters with SSID following callsign as ASCII but extended (0x31 is "-1" while 0x31 aka "=" is "-13")
+
+02: PTT delay
+   1 60 ms
+   2 120 ms
+   3 180 ms
+   4 300 ms
+   5 480 ms
+   6 600 ms
+   7 1000 ms
+   
+03: Output
+   1 KISS
+   2 Waypoint out
+   3 UI out
+
+04: MIC-E
+
+05: Path
+   0 non
+   1 WIDE 1-1
+   2 WINE 1-1 WIDE 2-1
+   3 WINE 1-1 WIDE 2-2
+   4 TEMP 1-1
+   5 TEMP 1-1 WIDE 2-1
+   6 WIDE 2-1
+
+06:  Overlay and Symbol (2 ASCII chars)
+
+07: Transmission mode 
+   1 manual
+   2 auto
+   3 manual + auto
+   4 smart
+   5 smart + manual
+
+08: Delay time in seconds for transmission, 4 ASCII chars. 0900 would be 15 minutes.
+
+09: Comment Text in ASCII
+
+10: Status Text in ASCII
+
+12: Digipeater 1st char 0 or 1 to enable
+   2nd char
+   1 wide 1
+   2 wide 2
+   3 wide 1 + wide 2
+
+13: auto off after 9 mins
+
+14: China map fix 
+   1st char 0 or 1 to enable
+   2nd + 3rd char from ascii 35 to 125 representing -45 to + 45
+   2nd is Long and 3rd Lat
+
+16: Frequency, 8 ASCII characters: "144.3900"
+
+17: Beep enable/disable
+
+18: Smart Beaconing - I haven't figured out the data layout
+
+19: High altitude
+
+20: Busy RX control
