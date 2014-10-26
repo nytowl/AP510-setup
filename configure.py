@@ -42,22 +42,22 @@ def display():
     print "Display :", s
 
 data = [
-    "@01" + callsign + icon,
-    "@02" + ptt_delay,
-    "@05" + path,
-    "@07" + tx_mode,
-    "@08" + update_rate,
-    "@09" + comment + "\n",
-    "@10" + status + "\n",
-    "@16" + freq,
-    "@17" + beep,
+    ( "Callsign", "@01" + callsign + icon),
+    ( "PTT delay", "@02" + ptt_delay),
+    ( "Path", "@05" + path),
+    ( "TX mode", "@07" + tx_mode),
+    ( "Update rate", "@08" + update_rate),
+    ( "Comment", "@09" + comment + "\n"),
+    ( "Status", "@10" + status + "\n"),
+    ( "Frequenxy", "@16" + freq),
+    ( "beep", "@17" + beep ),
 ]
 
 display()
 
 for line in data:
-    print "Writing: ", line
-    ser.write(line)
+    print "Writing: ", line[0], line[1]
+    ser.write(line[1])
     s = ser.read(500)
     print "Return :", s
 
