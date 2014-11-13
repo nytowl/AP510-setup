@@ -7,14 +7,15 @@ import serial
 
 port = '/dev/ttyUSB0'
 baud = 9600
-callsign = '      '
+callsign = '      1'
 icon = '6'
 freq = '144.3900'
 update_rate = '0900'
 ptt_delay = '6'
-path = '3'
-tx_mode = '1'
+path = '2'
+tx_mode = '3'
 beep = '0'
+digi = '11'
 comment = "Comment"
 status =  "Status"
 
@@ -49,6 +50,7 @@ data = [
     ( "Update rate", "@08" + update_rate),
     ( "Comment", "@09" + comment + "\n"),
     ( "Status", "@10" + status + "\n"),
+    ( "Digipeat", "@12" + digi + "\n"),
     ( "Frequenxy", "@16" + freq),
     ( "beep", "@17" + beep ),
 ]
