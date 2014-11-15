@@ -5,7 +5,7 @@
 #
 import array
 
-debug = True
+debug = False
 
 def AX25( to, frm, path, s ) :
     arr = array.array( "B" );
@@ -94,6 +94,9 @@ def deAX25( s ) :
         frame_str += call_sign + '-' + ssid + ' '
         
         arr = arr[7:]
+
+    if len( arr ) < 2 :
+        return ''
 
     control =  arr[0]
    
