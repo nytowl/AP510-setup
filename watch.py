@@ -41,13 +41,18 @@ timeout = 0
 while not done :
     s = ser.read( 100 )
 
-    timeout += 1
+    if len( s ) == 0 and len( remainder ) == 0 :
+        timeout = 0 
+    else :
+        timeout += 1
 
     if timeout > max_timeout and len( s ) == 0 and len( remainder ) > 0:
         # timeout waiting for the reset of the packet
         print "timeout wating for FEND"
         timeout = 0
         remainder =''
+    else :
+        print "Got chars %d %d %d" % ( timeout, len(s), len( remainder))
 
     if len( remainder ) > 0 :
         s = remainder + s

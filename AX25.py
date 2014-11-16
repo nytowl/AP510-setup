@@ -7,44 +7,58 @@ import array
 
 debug = False
 
+def AXsign( s ) :
+    arr = array.array( "B" );
+    display_s = ''    
+
+    signEnd = False
+
+    if len( s ) >= 6 :
+        sLen = 6
+    else :
+        sLen = len( s )
+
+    for i in range( 0, sLen ) :
+        if s[i] == '-' :
+            signEnd = True
+        if signEnd :
+            arr.append( ord( ' ' ) << 1 )
+            display_s += "_"
+        else :
+            arr.append( ord( s[i] ) << 1 )
+            display_s += s[i]
+
+    if signEnd or ( len( s ) == 8 and s[7] == '-' ) :
+        arr.append( ord( s[-1] ) << 1 )
+        display_s += "-" + s[-1] + " "
+    else :
+        arr.append( ord( '0' ) << 1 )
+        display_s += " "
+
+    return ( arr, display_s )
+
 def AX25( to, frm, path, s ) :
     arr = array.array( "B" );
     display_s = ''    
 
-    for i in range( 0, 6 ) :
-        if i >= ( len( to ) - 1 ) :
-            arr.append( ord( ' ' ) << 1 )
-            dislay_s += "_"
-        else :
-            arr.append( ord( to[i] ) << 1 )
-            display_s += to[i]
-
-    arr.append( ord( to[-1] ) << 1 )
-    display_s += to[-1]
-
-    for i in range( 0, 6 ) :
-        if i >= ( len( frm ) - 1 ) :
-            arr.append( ord( ' ' ) << 1 )
-            display_s += "_"
-        else :
-            arr.append( ord( frm[i] ) << 1 )
-            display_s += frm[i]
+    toArr , toS = AXsign( to )
     
-    arr.append( ord( frm[-1] ) << 1 )
-    display_s += frm[-1]
+    arr += toArr
+    display_s += toS
+
+    frmArr , frmS = AXsign( frm )
+    
+    arr += frmArr 
+    display_s += frmS
 
     for item in path :
-        print "item: ", item, len( item )
-        for i in range( 0, 6 ) :
-            if i >= ( len( item ) - 1 ) :
-                arr.append( ord( ' ' ) << 1 )
-                display_s += "_"
-            else :
-                arr.append( ord( item[i] ) << 1 )
-                display_s += item[i]
+        if debug :
+            print "item: ", item, len( item )
 
-        arr.append( ord( item[-1] ) << 1 )
-        display_s += item[-i]
+        itemArr, itemS = AXsign( item )
+
+        arr += itemArr
+        display_s += itemS
 
     if debug :
         print "frame: ", display_s + " " + s
