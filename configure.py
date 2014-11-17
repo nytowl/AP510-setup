@@ -4,6 +4,7 @@
 # This software is licensed GPL V2
 #
 import serial
+import array
 
 port = '/dev/ttyUSB0'
 baud = 9600
@@ -13,11 +14,19 @@ freq = '144.3900'
 update_rate = '0900'
 ptt_delay = '6'
 path = '2'
-tx_mode = '3'
+tx_mode = '5'
 beep = '0'
 digi = '11'
 comment = "Comment"
 status =  "Status"
+
+lowSpeed = 50
+hispeed = 100
+slowRate = 180
+fastRate = 60
+turnSlope = 45
+turnAngle = 45
+turnTime = 15
 
 ser = serial.Serial( port, baud, timeout=0.5)
 
@@ -37,10 +46,34 @@ print "Got setup"
 
 ser.timeout=2
 
+def smartEnc() :
+    arr = array.array( 'B' )
+    arr.append( lowSpeed >> 8 )
+    arr.append( lowSpeed )
+    arr.append( hispeed >> 8 )
+    arr.append( hispeed )
+    arr.append( slowRate >> 8 )
+    arr.append( slowRate )
+    arr.append( fastRate >> 8 )
+    arr.append( fastRate )
+    arr.append( turnSlope >> 8 )
+    arr.append( turnSlope )
+    arr.append( turnAngle >> 8 )
+    arr.append( turnAngle )
+    arr.append( turnTime >> 8 )
+    arr.append( turnTime )
+
+    return ''.join( chr(x) for x in arr )
+
 def display():
     ser.write( "@DISP" )
-    s = ser.read( 500 )
-    print "Display :", s
+    while True :
+        line = ser.readline()
+        if not line :
+            break
+        print "line %d : %s" % ( len( line ), line ) , 
+        if '18=' in line :
+            print "hex: " + ":".join("{:02x}".format( ord( c )) for c in line )
 
 data = [
     ( "Callsign", "@01" + callsign + icon),
@@ -51,14 +84,15 @@ data = [
     ( "Comment", "@09" + comment + "\n"),
     ( "Status", "@10" + status + "\n"),
     ( "Digipeat", "@12" + digi + "\n"),
-    ( "Frequenxy", "@16" + freq),
+    ( "Frequency", "@16" + freq),
     ( "beep", "@17" + beep ),
+    ( "Smart Beacon", "@18" + smartEnc() ),
 ]
 
 display()
 
 for line in data:
-    print "Writing: ", line[0], line[1]
+    print "Writing %d : %s %s  " %( len( line[1] ), line[0], line[1] )
     ser.write(line[1])
     s = ser.read(500)
     print "Return :", s
@@ -67,12 +101,3 @@ display()
 
 print "exit"
 ser.write( "@EXIT" )
-
-ser.baud=9600
-
-while True :
-    s = ser.read( 500 )
-
-    print "Position :", s
-
-

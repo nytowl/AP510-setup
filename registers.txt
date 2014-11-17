@@ -63,7 +63,13 @@
 17: Beep enable/disable
 
 18: Smart Beaconing - I haven't figured out the data layout
-
+    2 bytes - low speed
+    2 bytes - slow rate
+    2 bytes - high speed
+    2 bytes - fast rate
+    2 bytes - turn slope
+    2 bytes - turn angle
+    2 bytes - turn time
 19: High altitude
 
 20: Busy RX control
