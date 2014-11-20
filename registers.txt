@@ -22,7 +22,7 @@
 04: MIC-E
 
 05: Path
-   0 non
+   0 none
    1 WIDE 1-1
    2 WINE 1-1 WIDE 2-1
    3 WINE 1-1 WIDE 2-2
